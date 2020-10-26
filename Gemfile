@@ -13,6 +13,7 @@ gem 'zeitwerk'
 gem 'aws-sdk-dynamodb', '~> 1.51'
 gem 'mandate'
 gem 'exercism-config', '>= 0.42.0'
+gem 'rugged' # Git
 
 group :development, :test do
   gem 'parallel'
