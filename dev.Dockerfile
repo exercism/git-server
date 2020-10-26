@@ -26,5 +26,5 @@ COPY . .
 
 ENV CONTAINER_NAME=git-server
 
-ENTRYPOINT APP_ENV=development bundle exec rackup -p 3021 --host 0.0.0.0
+ENTRYPOINT EXERCISM_ENV=development ALWAYS_FETCH_ORIGIN=true bundle exec rackup -p 3022 --host 0.0.0.0
 

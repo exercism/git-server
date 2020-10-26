@@ -4,7 +4,9 @@ module GitServer
 
     def initialize(repo_name, repo_url: nil)
       @repo_name = repo_name
-      @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
+      # TODO; Switch when we move back out of monorepo
+      # @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
+      @repo_url = repo_url || "https://github.com/exercism/v3"
     end
 
     def head_commit

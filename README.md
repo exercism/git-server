@@ -19,13 +19,13 @@ docker build -f Dockerfile.dev -t exercism-git-server .
 To execute the Dockerfile.
 
 ```
-docker run -p 3021:3021 -v /PATH/TO/PWD:/usr/src/app exercism-git-server:latest
+docker run -p 3022:3022 -v /PATH/TO/PWD:/usr/src/app exercism-git-server:latest
 ```
 
 For example:
 
 ```
-docker run -p 3021:3021 -v /Users/iHiD/Code/exercism/git-server:/usr/src/app exercism-git-server:latest
+docker run -p 3022:3022 -v /Users/iHiD/Code/exercism/git-server:/usr/src/app exercism-git-server:latest
 ```
 
 It will then sit and wait for messages from the website.

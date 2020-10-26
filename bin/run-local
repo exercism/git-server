@@ -1,0 +1,3 @@
+#!/bin/bash
+
+EXERCISM_ENV=development ALWAYS_FETCH_ORIGIN=true bundle exec rackup -p 3022
