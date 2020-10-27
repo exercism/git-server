@@ -24,14 +24,22 @@ module GitServer
       blob.present? ? blob.text : default
     end
 
-    %i[commit tree].each do |type|
-      define_method "lookup_#{type}" do |oid|
-        lookup(oid).tap do |object|
-          raise 'wrong-type' if object.type != type
-        end
-      rescue Rugged::OdbError
-        raise 'not-found'
+    def lookup_commit(oid)
+      return head_commit if oid == "HEAD"
+
+      lookup(oid).tap do |object|
+        raise 'wrong-type' if object.type != :commit
       end
+    rescue Rugged::OdbError
+      raise 'not-found'
+    end
+
+    def lookup_tree(oid)
+      lookup(oid).tap do |object|
+        raise 'wrong-type' if object.type != :tree
+      end
+    rescue Rugged::OdbError
+      raise 'not-found'
     end
 
     def find_blob_oid(commit, path)

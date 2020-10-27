@@ -7,10 +7,6 @@ module GitServer
       @slug = slug
     end
 
-    def head_sha
-      repo.head_commit.oid
-    end
-
     def test_regexp
       pattern = config[:test_pattern]
       Regexp.new(pattern.presence || "[tT]est")
