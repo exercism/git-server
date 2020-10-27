@@ -2,6 +2,29 @@ require 'test_helper'
 
 module GitServer
   class TrackTest < Minitest::Test
+    def test_passing_repo_works
+      repo = Repository.new(:csharp, repo_url: git_repo_url("v3-monorepo"))
+      track = Track.new(:csharp, repo: repo)
+      assert_equal(/.+test[.]rb$/, track.test_regexp)
+    end
+
+    def test_passing_repo_url_works
+      track = Track.new(:csharp, repo_url: git_repo_url("v3-monorepo"))
+      assert_equal(/.+test[.]rb$/, track.test_regexp)
+    end
+
+    def test_passing_both_repo_and_repo_url_raises
+      assert_raises do
+        Repository.new(track_slug, repo_url: "foobar", repo: "barfoo")
+      end
+    end
+
+    def test_passing_neither_repo_and_repo_url_raises
+      assert_raises do
+        Repository.new(track_slug)
+      end
+    end
+
     def test_monorepo_test_regexp
       track = Track.new(:csharp, repo_url: git_repo_url("v3-monorepo"))
       assert_equal(/.+test[.]rb$/, track.test_regexp)

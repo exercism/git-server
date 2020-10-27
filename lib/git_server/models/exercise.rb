@@ -10,24 +10,41 @@ module GitServer
       @git_sha = git_sha
     end
 
-    def filepaths
-      files.map { |defn| defn[:full] }
+    memoize
+    def code_files
+      code_filepaths.each.with_object({}) do |filepath, hash|
+        hash[filepath] = read_file_blob(filepath)
+      end
+    end
+
+    memoize
+    def code_filepaths
+      filepaths.map do |filepath, _hash|
+        next if filepath.match?(track.ignore_regexp)
+        next if filepath.start_with?(".meta")
+
+        filepath
+      end.compact
     end
 
     def read_file_blob(path)
-      mapped = files.map { |f| [f[:full], f[:oid]] }.to_h
+      mapped = file_entries.map { |f| [f[:full], f[:oid]] }.to_h
       mapped[path] ? repo.read_blob(mapped[path]) : nil
-    end
-
-    def version
-      config[:version]
     end
 
     private
     attr_reader :repo, :track_slug, :exercise_slug, :git_sha
 
+    def filepaths
+      file_entries.map { |defn| defn[:full] }
+    end
+
+    # def version
+    #   config[:version]
+    # end
+
     memoize
-    def files
+    def file_entries
       tree.walk(:preorder).map do |root, entry|
         next if entry[:type] == :tree
 
@@ -53,6 +70,11 @@ module GitServer
     memoize
     def commit
       repo.lookup_commit(git_sha)
+    end
+
+    memoize
+    def track
+      Track.new(track_slug, repo: repo)
     end
   end
 end

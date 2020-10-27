@@ -1,7 +1,9 @@
 module GitServer
   class Track
-    def initialize(slug, repo_url:)
-      @repo = Repository.new(slug, repo_url: repo_url)
+    def initialize(slug, repo_url: nil, repo: nil)
+      raise "One of :repo or :repo_url must be specified" unless [repo, repo_url].compact.size == 1
+
+      @repo = repo || Repository.new(slug, repo_url: repo_url)
       @slug = slug
     end
 
