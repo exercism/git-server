@@ -3,7 +3,8 @@
 #############
 FROM ruby:2.6.6-alpine3.12
 
-RUN apk add --no-cache --update build-base cmake git
+RUN apk add --no-cache --update \
+    build-base cmake git ruby-dev
 
 WORKDIR /usr/src/app
 ENV APP_ENV=production
