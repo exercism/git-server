@@ -24,14 +24,17 @@ module GitServer
       blob.present? ? blob.text : default
     end
 
-    def lookup_commit(oid)
+    def lookup_commit(oid, update_on_failure: true)
       return head_commit if oid == "HEAD"
 
       lookup(oid).tap do |object|
         raise 'wrong-type' if object.type != :commit
       end
     rescue Rugged::OdbError
-      raise 'not-found'
+      raise 'not-found' unless update_on_failure
+
+      update!
+      lookup_commit(oid, update_on_failure: false)
     end
 
     def lookup_tree(oid)
@@ -73,6 +76,12 @@ module GitServer
     private
     attr_reader :repo_name, :repo_url
 
+    def update!
+      rugged_repo.fetch('origin')
+    rescue Rugged::NetworkError
+      # Don't block development offline
+    end
+
     def main_branch
       rugged_repo.branches[MAIN_BRANCH_REF]
     end
@@ -91,11 +100,7 @@ module GitServer
     memoize
     def rugged_repo
       if File.directory?(repo_dir)
-        Rugged::Repository.new(repo_dir).tap do |r|
-          r.fetch('origin') if keep_up_to_date?
-        rescue Rugged::NetworkError
-          # Don't block development offline
-        end
+        Rugged::Repository.new(repo_dir)
       else
         Rugged::Repository.clone_at(repo_url, repo_dir, bare: true)
       end
