@@ -1,8 +1,8 @@
 # Exercism's Git Server
 
 ![Tests](https://github.com/exercism/git-server/workflows/Tests/badge.svg)
-[![Maintainability](https://api.codeclimate.com/v1/badges/d4fa74b662731c5ec239/maintainability)](https://codeclimate.com/github/exercism/git-server/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/d4fa74b662731c5ec239/test_coverage)](https://codeclimate.com/github/exercism/git-server/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/24384c54af9115c9b851/maintainability)](https://codeclimate.com/github/exercism/git-server/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/24384c54af9115c9b851/test_coverage)](https://codeclimate.com/github/exercism/git-server/test_coverage)
 
 A server to retrieve data from Exercism's git organisation
 

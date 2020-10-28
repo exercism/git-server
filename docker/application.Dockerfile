@@ -10,7 +10,8 @@ RUN set -ex; \
 WORKDIR /usr/src/app
 
 COPY Gemfile Gemfile.lock ./
-RUN gem install bundler:2.1.4 && \
+RUN echo "gem: --no-document" > ~/.gemrc &&\
+    gem install bundler:2.1.4 && \
     bundle config set deployment 'true' && \
     bundle config set without 'development test' && \
     bundle install
@@ -30,7 +31,8 @@ ENV APP_ENV=production
 ENV RACK_ENV=production
 ENV EXERCISM_ENV=production
 
-RUN gem install bundler:2.1.4
+RUN echo "gem: --no-document" > ~/.gemrc && \
+    gem install bundler:2.1.4
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 
 # copy the source as late as possible to maximize cache
