@@ -25,4 +25,8 @@ group :development, :test do
   gem 'timecop'
   gem "mocha"
   gem "minitest"
+
+  # This is needed for exercism_config
+  # to set things up in CI-land
+  gem 'aws-sdk-s3'
 end
