@@ -93,8 +93,9 @@ module GitServer
     memoize
     def repos_dir
       return "./test/tmp/git_repo_cache" if Exercism.config.test?
+      return "./tmp/git_repo_cache" if Exercism.config.development?
 
-      "./tmp/git_repo_cache"
+      "/opt/repos"
     end
 
     memoize

@@ -2,13 +2,15 @@ FROM ruby:2.6.6
 
 RUN set -ex; \
     apt-get update; \
-    apt-get install -y cmake ruby-dev git; \
+    apt-get install -y cmake ruby-dev git nfs-common; \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
 ENV APP_ENV=production
 ENV RACK_ENV=production
 ENV EXERCISM_ENV=production
+
+RUN mkdir /opt/repos
 
 COPY Gemfile Gemfile.lock ./
 RUN echo "gem: --no-document" > ~/.gemrc &&\
