@@ -1,9 +1,11 @@
 #############
 ## Stage 1 ##
 #############
-FROM ruby:2.6.6-alpine3.12 as gembuilder
+FROM ruby:2.6.6 as builder
 
-RUN apk add --no-cache --update build-base cmake
+RUN set -ex; \
+    apt-get update; \
+    apt-get install -y cmake ruby-dev;
 
 WORKDIR /usr/src/app
 
@@ -14,12 +16,17 @@ RUN gem install bundler:2.1.4 && \
 #############
 ## Stage 2 ##
 #############
-FROM ruby:2.6.6-alpine3.12
+FROM ruby:2.6.6-slim-buster
+
+RUN set -ex; \
+    apt-get update; \
+    apt-get install -y git; \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
 
 RUN gem install bundler:2.1.4
-COPY --from=gembuilder /usr/local/bundle/ /usr/local/bundle/
+COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 
 # copy the source as late as possible to maximize cache
 COPY . .
