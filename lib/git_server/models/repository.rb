@@ -73,14 +73,14 @@ module GitServer
       rugged_repo.lookup(*args)
     end
 
-    private
-    attr_reader :repo_name, :repo_url
-
     def update!
       rugged_repo.fetch('origin')
     rescue Rugged::NetworkError
       # Don't block development offline
     end
+
+    private
+    attr_reader :repo_name, :repo_url
 
     def main_branch
       rugged_repo.branches[MAIN_BRANCH_REF]

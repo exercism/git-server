@@ -11,6 +11,11 @@ module GitServer
       json(ruok: :yes)
     end
 
+    post '/pull' do
+      Repository.new(nil).update!
+      json(didwhatiwastold: true)
+    end
+
     get '/exercises/:track_slug/:exercise_slug/data' do
       data = RetrieveExerciseData.(
         params[:track_slug],
