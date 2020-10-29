@@ -66,5 +66,14 @@ module GitServer
              content: content
            })
     end
+
+    get '/concepts/:track_slug/:concept_slug/data' do
+      data = RetrieveConceptData.(
+        params[:track_slug],
+        params[:concept_slug],
+        params[:git_sha].presence || "HEAD"
+      )
+      json(concept: data)
+    end
   end
 end
