@@ -20,6 +20,19 @@ module GitServer
       json(exercise: data)
     end
 
+    get '/exercises/:track_slug/:exercise_slug/editor_files' do
+      exercise = Exercise.new(
+        params[:track_slug],
+        params[:exercise_slug],
+        params[:git_sha]
+      )
+
+      json(
+        solution_files: exercise.editor_solution_files,
+        test_files: []
+      )
+    end
+
     get '/exercises/:track_slug/:exercise_slug/code_files' do
       files = Exercise.new(
         params[:track_slug],

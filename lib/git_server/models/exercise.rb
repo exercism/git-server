@@ -11,6 +11,15 @@ module GitServer
     end
 
     memoize
+    def editor_solution_files
+      config['editor']['solution_files'].each_with_object({}) do |filepath, hash|
+        hash[filepath] = read_file_blob(filepath)
+      end
+    rescue StandardError
+      {}
+    end
+
+    memoize
     def code_files
       code_filepaths.each.with_object({}) do |filepath, hash|
         hash[filepath] = read_file_blob(filepath)
@@ -62,9 +71,9 @@ module GitServer
 
     memoize
     def config
-      HashWithIndifferentAccess.new(
-        JSON.parse(read_file_blob('.meta/config.json'))
-      )
+      # HashWithIndifferentAccess.new(
+      JSON.parse(read_file_blob('.meta/config.json'))
+      # )
     end
 
     memoize
