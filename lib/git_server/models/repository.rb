@@ -87,7 +87,9 @@ module GitServer
     end
 
     def repo_dir
-      "#{repos_dir}/#{Digest::SHA1.hexdigest(repo_url)}-#{repo_name}"
+      # TODO: Change when breaking out of monorepo
+      "#{repos_dir}/#{Digest::SHA1.hexdigest(repo_url)}-#{repo_url.split('/').last}"
+      # "#{repos_dir}/#{Digest::SHA1.hexdigest(repo_url)}-#{repo_name}"
     end
 
     memoize
